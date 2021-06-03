@@ -29,12 +29,38 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+      <form action="" method="post" enctype="multipart/form-data" >
+      <input type="hidden" name="id" id="id">
+  <div class="form-group">
+    <label for="">First Name</label>
+    <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
+  </div>
+
+  <div class="form-group">
+    <label for="">Last Name</label>
+    <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter First Name">
+  </div>
+
+  <div class="form-group">
+    <label for="">Age</label>
+    <input type="text" class="form-control" id="age" name="age"  placeholder="Enter First Name">
+  </div>
+
+  <div class="form-group">
+    <label for="">Image</label><br>
+    <input type="file" name="img_path" id="img_path">
+  </div>
+  
+ 
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" name="edit-customer" class="btn btn-primary">Save changes</button>
       </div>
+      </form>
+      </div>
+      
     </div>
   </div>
 </div>
@@ -50,7 +76,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="" method="post" enctype="multipart/form-data" >
+     <form action="" method="post" enctype="multipart/form-data" >
   <div class="form-group">
     <label for="">First Name</label>
     <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
@@ -98,12 +124,29 @@ if(isset($_POST['insert-customer'])){
   header("location:customer_crud.php");
 }
 
-if(isset($_POST['update-customer'])){
+if(isset($_POST['edit-customer'])){
+    $id=$_POST['id'];
+    $fname=$_POST["fname"];
+    $lname=$_POST["lname"];
+    $age=$_POST["age"];
+    $sql="update customers set fname='$fname',lname='$lname',age='$age' where id = '$id'";
+
+    $update=mysqli_query($conn,$sql);
+    if($update){
+      $_SESSION['update_msg']="Record Updated Successfully";
+    }
+    else{
+      $_SESSION['update_msg_error']="Record Not Updated";
+    }
     
 }
 
-if(isset($_POST['delete-customer'])){
-    
+if(isset($_POST['customer-delete'])){
+    $id=$_POST['delete_id'];
+    $sql="delete from customers where id='$id'";
+    $delete=mysqli_query($conn,$sql);
+    header("location:customer_crud.php");
 }
 
 ?>
+
